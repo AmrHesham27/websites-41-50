@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PARILITAS LIMITED — AI & Software Development</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GTVHw5pkJrZbUUJEiUyDq0pXJTv14NxdOZrY2uYt+8mz/Jf6UCBLzQ3RxAt8y5Lq"
+      crossorigin="anonymous"
+    />
+    <style>
+      :root {
+        --accent: #5a4de0;
+        --accent-soft: rgba(90, 77, 224, 0.2);
+        --bg: #05060a;
+        --surface: #0e111a;
+        --surface-soft: #161a28;
+        --text: #f6f6fa;
+        --muted: #a0a7c4;
+        --border: rgba(255, 255, 255, 0.08);
+        --radius-sm: 0.5rem;
+        --radius-lg: 1.25rem;
+        --shadow-soft: 0 20px 45px rgba(0, 0, 0, 0.35);
+        --space-xxs: 0.35rem;
+        --space-xs: 0.65rem;
+        --space-sm: 1rem;
+        --space-md: 1.75rem;
+        --space-lg: 2.75rem;
+        --space-xl: 3.5rem;
+        --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
+        --font-body: "Inter", system-ui, sans-serif;
+        --nav-height: 72px;
+        --page-gutter: clamp(1.5rem, 3vw, 3rem);
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--font-body);
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        line-height: 1.6;
+        padding-inline: var(--page-gutter);
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: var(--font-display);
+        letter-spacing: -0.01em;
+        margin-bottom: var(--space-sm);
+      }
+
+      p {
+        color: var(--muted);
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(12px);
+        background: rgba(5, 6, 10, 0.85);
+        border-bottom: 1px solid var(--border);
+        padding-inline: var(--page-gutter);
+      }
+
+      nav {
+        min-height: var(--nav-height);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 var(--space-lg);
+      }
+
+      nav img {
+        max-height: 40px;
+        height: auto;
+        width: auto;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .nav-links a {
+        color: var(--muted);
+        font-size: 0.95rem;
+        text-decoration: none;
+        transition: color 200ms ease;
+      }
+
+      .nav-links a:hover,
+      .nav-links a:focus-visible {
+        color: var(--text);
+      }
+
+      .btn-custom {
+        border: 1px solid transparent;
+        padding: 0.85rem 1.75rem;
+        border-radius: 999px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-size: 0.8rem;
+        transition: transform 250ms ease, box-shadow 250ms ease,
+          background 250ms ease;
+        cursor: pointer;
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        color: #fff;
+        box-shadow: 0 10px 30px rgba(90, 77, 224, 0.35);
+      }
+
+      .btn-primary:hover,
+      .btn-primary:focus-visible {
+        background: #4837c7;
+        transform: translateY(-2px);
+        box-shadow: 0 20px 40px rgba(90, 77, 224, 0.45);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        border-color: var(--border);
+        color: var(--text);
+      }
+
+      .btn-secondary:hover,
+      .btn-secondary:focus-visible {
+        background: var(--surface-soft);
+        border-color: var(--accent);
+      }
+
+      .hero {
+        background-image: linear-gradient(
+            135deg,
+            rgba(5, 6, 10, 0.95),
+            rgba(5, 6, 10, 0.65)
+          ),
+          url("hero.png");
+        background-size: cover;
+        background-position: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding: var(--space-xl) 0 calc(var(--space-lg) * 1.5);
+      }
+
+      .hero-content {
+        max-width: 640px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.7rem, 5vw, 3.9rem);
+        line-height: 1.1;
+      }
+
+      .hero-sub {
+        font-size: 1.1rem;
+        color: var(--muted);
+        margin-bottom: var(--space-lg);
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: var(--space-lg);
+      }
+
+      .hero-proof {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+
+      .hero-proof svg {
+        width: 20px;
+        height: 20px;
+        fill: var(--accent);
+      }
+
+      section {
+        padding: var(--space-lg) 0;
+        scroll-margin-top: calc(var(--nav-height) + 1rem);
+      }
+
+      .section-intro {
+        max-width: 640px;
+      }
+
+      .section-title {
+        font-size: 2rem;
+        margin-bottom: var(--space-sm);
+      }
+
+      .features-grid {
+        gap: 1.5rem;
+      }
+
+      .feature-card,
+      .testimony-card,
+      .faq-item,
+      .form-panel {
+        background: var(--surface);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: var(--radius-lg);
+        padding: var(--space-md);
+        box-shadow: var(--shadow-soft);
+        transition: transform 300ms ease, box-shadow 300ms ease,
+          border-color 300ms ease;
+      }
+
+      .feature-card:hover,
+      .feature-card:focus-within,
+      .testimony-card:hover,
+      .faq-item:hover {
+        transform: translateY(-6px);
+        border-color: rgba(90, 77, 224, 0.45);
+        box-shadow: 0 25px 50px rgba(5, 6, 10, 0.45);
+      }
+
+      .feature-card svg,
+      .testimony-card svg {
+        width: 36px;
+        height: 36px;
+      }
+
+      .feature-card h3 {
+        font-size: 1.1rem;
+      }
+
+      .steps-list {
+        gap: 1.5rem;
+      }
+
+      .step-item {
+        background: linear-gradient(180deg, rgba(90, 77, 224, 0.18), transparent);
+        border-radius: var(--radius-lg);
+        padding: var(--space-md);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .step-number {
+        font-size: 0.9rem;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 0.5rem;
+      }
+
+      .avatar {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(90, 77, 224, 0.5), rgba(255, 255, 255, 0.2));
+        margin-right: 0.8rem;
+      }
+
+      .testimony-card {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .testimony-meta {
+        display: flex;
+        align-items: center;
+        margin-bottom: var(--space-xs);
+      }
+
+      .faq-item {
+        display: grid;
+        gap: var(--space-xs);
+      }
+
+      .faq-item h3 {
+        font-size: 1rem;
+      }
+
+      .faq-item p {
+        margin: 0;
+      }
+
+      .form-panel form {
+        display: grid;
+        gap: var(--space-md);
+      }
+
+      .form-group label {
+        display: block;
+        font-size: 0.85rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 0.35rem;
+        color: var(--muted);
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        border-radius: var(--radius-sm);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: var(--surface-soft);
+        padding: 0.9rem 1rem;
+        color: var(--text);
+        font-size: 1rem;
+        font-family: inherit;
+        transition: border-color 200ms ease, box-shadow 200ms ease;
+      }
+
+      .form-group input:focus-visible,
+      .form-group textarea:focus-visible {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(90, 77, 224, 0.25);
+        outline: none;
+      }
+
+      .cta-strip {
+        background: linear-gradient(120deg, rgba(90, 77, 224, 0.65), rgba(11, 14, 29, 0.95));
+        border-radius: var(--radius-lg);
+        padding: var(--space-lg);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        margin-bottom: var(--space-lg);
+      }
+
+      footer {
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        padding: var(--space-lg) 0;
+        background: linear-gradient(180deg, rgba(5, 6, 10, 0.95), rgba(5, 6, 10, 1));
+      }
+
+      footer a {
+        color: var(--muted);
+        text-decoration: none;
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: var(--space-md);
+      }
+
+      .footer-col h4 {
+        font-size: 1rem;
+        margin-bottom: var(--space-xs);
+      }
+
+      .footer-col ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+
+      .footer-col a:hover,
+      .footer-col a:focus-visible {
+        color: var(--text);
+      }
+
+      .final-note {
+        text-align: center;
+        margin-top: var(--space-lg);
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+
+      @media (max-width: 768px) {
+        nav {
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+
+        nav img {
+          max-height: 32px;
+        }
+
+        nav .nav-links {
+          justify-content: center;
+        }
+
+        .hero-actions {
+          justify-content: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="container">
+        <div class="d-flex align-items-center gap-3">
+          <img src="logo.png" alt="PARILITAS LIMITED logo" />
+          <span class="text-uppercase text-muted small" style="letter-spacing:0.2em; font-size:0.65rem;">PARILITAS</span>
+        </div>
+        <div class="nav-links">
+          <a href="#testimonials">Testimonials</a>
+          <a href="#features">Expertise</a>
+          <a href="#contact">Contact</a>
+          <a href="#faq">FAQ</a>
+          <a class="btn-custom btn-primary" href="#contact">Talk strategy</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-content">
+          <p class="text-uppercase text-muted mb-2" style="letter-spacing:0.4em; font-size:0.75rem;">PARILITAS LIMITED</p>
+          <h1 class="reveal">Precision-built AI and software craftsmanship for decisive teams.</h1>
+          <p class="hero-sub reveal">
+            We architect bespoke intelligence solutions, software products, and trusted innovation roadmaps for visionary organizations who expect measurable outcomes.
+          </p>
+          <div class="hero-actions">
+            <a class="btn-custom btn-primary reveal" href="#contact">Plan a discovery</a>
+            <a class="btn-custom btn-secondary reveal" href="#features">Explore our expertise</a>
+          </div>
+          <div class="hero-proof reveal" aria-label="Trusted by teams">
+            <div class="d-flex align-items-center">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 .587l3.668 7.431 8.207 1.193-5.939 5.788 1.402 8.166L12 18.896l-7.338 3.669 1.402-8.166L.125 9.211l8.207-1.193z" />
+              </svg>
+              <span style="margin-left:0.4rem; text-transform:uppercase; letter-spacing:0.2em; font-size:0.65rem;">200+ teams trusted</span>
+            </div>
+            <span>
+              Rated 4.9 on feedback loops
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <section id="testimonials">
+        <div class="container">
+          <div class="section-intro reveal">
+            <p class="text-uppercase text-muted small" style="letter-spacing:0.3em;">Voices that matter</p>
+            <h2 class="section-title">Built trust from day one.</h2>
+            <p>
+              From fintech leaders to climate-tech pioneers, we guide product teams through bold AI integration and operational rigor.
+            </p>
+          </div>
+          <div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
+            <div class="col">
+              <article class="testimony-card reveal">
+                <div class="testimony-meta">
+                  <div class="avatar" aria-hidden="true"></div>
+                  <div>
+                    <strong>Amelia Grant</strong>
+                    <p class="mb-0 text-muted small">Chief Product Officer, NovaScale</p>
+                  </div>
+                </div>
+                <p>
+                  “PARILITAS delivered a predictive triage engine that feels surgical in performance. The roadmap was flawless from kickoff.”
+                </p>
+              </article>
+            </div>
+            <div class="col">
+              <article class="testimony-card reveal">
+                <div class="testimony-meta">
+                  <div class="avatar" aria-hidden="true"></div>
+                  <div>
+                    <strong>Marcus Li</strong>
+                    <p class="mb-0 text-muted small">Head of Engineering, DeepReach</p>
+                  </div>
+                </div>
+                <p>
+                  “They pair disciplined software development with an uncanny feel for AI nuance. The product stability gains are tangible.”
+                </p>
+              </article>
+            </div>
+            <div class="col">
+              <article class="testimony-card reveal">
+                <div class="testimony-meta">
+                  <div class="avatar" aria-hidden="true"></div>
+                  <div>
+                    <strong>Sofia Moreno</strong>
+                    <p class="mb-0 text-muted small">Managing Partner, Lumen Grove</p>
+                  </div>
+                </div>
+                <p>
+                  “Their strategy labs are crisp, and their delivery culture never compromises on polish. We relaunched with three new intelligent services.”
+                </p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="features">
+        <div class="container">
+          <div class="section-intro reveal">
+            <p class="text-uppercase text-muted small" style="letter-spacing:0.3em;">Expertise</p>
+            <h2 class="section-title">Calibrated capabilities for complex problems.</h2>
+            <p>
+              Our squads mix AI researchers, systems engineers, and product strategists to ship resilient solutions and seamless handoffs.
+            </p>
+          </div>
+          <div class="row row-cols-1 row-cols-md-2 g-4 mt-4 features-grid">
+            <div class="col">
+              <article class="feature-card reveal">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 2l9 4v6c0 5-3.8 9.1-9 10-5.2-.9-9-5-9-10V6z" />
+                  </svg>
+                  <h3>Strategic AI Foundations</h3>
+                </div>
+                <p>Research-backed journeys, risk-aware pilots, and executive alignment for rapid confidence.</p>
+              </article>
+            </div>
+            <div class="col">
+              <article class="feature-card reveal">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5c-1.1 0-2-.9-2-2V5a2 2 0 0 1 2-2zm7 2l4 4h-3v4h-2V9H8l4-4z" />
+                  </svg>
+                  <h3>AI-native product builds</h3>
+                </div>
+                <p>Production-grade platforms infused with guardrails, observability, and adaptive models.</p>
+              </article>
+            </div>
+            <div class="col">
+              <article class="feature-card reveal">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M4 12l5 5L20 6" />
+                  </svg>
+                  <h3>Software engineering excellence</h3>
+                </div>
+                <p>Reliable APIs, resilient workflows, and automated standards so integrations feel effortless.</p>
+              </article>
+            </div>
+            <div class="col">
+              <article class="feature-card reveal">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M7 7h10v10H7z" />
+                  </svg>
+                  <h3>Ethics & governance</h3>
+                </div>
+                <p>Bias audits, compliance-ready documentation, and secure operations for enterprise wardens.</p>
+              </article>
+            </div>
+            <div class="col">
+              <article class="feature-card reveal">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M4 12h16M4 6h16M4 18h16" />
+                  </svg>
+                  <h3>Insight orchestration</h3>
+                </div>
+                <p>Unified dashboards, predictive alerts, and storytelling that keeps stakeholders aligned.</p>
+              </article>
+            </div>
+            <div class="col">
+              <article class="feature-card reveal">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M7 3h10l2 5H5zM5 9h14l1 11H4z" />
+                  </svg>
+                  <h3>Scalable delivery</h3>
+                </div>
+                <p>From build to guardrails and launch, we keep velocity high with measurable handoffs.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact">
+        <div class="container">
+          <div class="section-intro reveal">
+            <p class="text-uppercase text-muted small" style="letter-spacing:0.3em;">Let's converse</p>
+            <h2 class="section-title">Ready when you need meticulous execution.</h2>
+            <p>Send us your context, and we respond with a tailored blueprint, cadence, and senior leadership team.</p>
+          </div>
+          <div class="form-panel mt-4 reveal">
+            <form action="contact.php" method="POST">
+              <div class="row g-3">
+                <div class="col-md-6 form-group">
+                  <label for="name">Name <span aria-hidden="true">*</span></label>
+                  <input type="text" id="name" name="name" required />
+                </div>
+                <div class="col-md-6 form-group">
+                  <label for="company">Company</label>
+                  <input type="text" id="company" name="company" />
+                </div>
+              </div>
+              <div class="row g-3">
+                <div class="col-md-6 form-group">
+                  <label for="email">Email <span aria-hidden="true">*</span></label>
+                  <input type="email" id="email" name="email" required />
+                </div>
+                <div class="col-md-6 form-group">
+                  <label for="message">Message <span aria-hidden="true">*</span></label>
+                  <textarea id="message" name="message" rows="4" required></textarea>
+                </div>
+              </div>
+              <p class="small text-muted">
+                We respond within two business days with a bespoke agenda for our pilot engagement.
+              </p>
+              <div class="mt-3">
+                <button class="btn-custom btn-primary reveal" type="submit">Submit brief</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section id="process">
+        <div class="container">
+          <div class="section-intro reveal">
+            <p class="text-uppercase text-muted small" style="letter-spacing:0.3em;">How we work</p>
+            <h2 class="section-title">Clarity over complexity.</h2>
+            <p>Each engagement blends purposeful strategy, relentless quality, and transparent reporting.</p>
+          </div>
+          <div class="row row-cols-1 row-cols-md-3 mt-4 steps-list">
+            <div class="col reveal">
+              <article class="step-item">
+                <div class="step-number">STEP 01</div>
+                <h3>Immersion labs</h3>
+                <p>Rapid research sprint with stakeholders, data, and system audits to map opportunity.</p>
+              </article>
+            </div>
+            <div class="col reveal">
+              <article class="step-item">
+                <div class="step-number">STEP 02</div>
+                <h3>Product engineering</h3>
+                <p>Agile execution with rigorous testing, observability, and AI validation gates.</p>
+              </article>
+            </div>
+            <div class="col reveal">
+              <article class="step-item">
+                <div class="step-number">STEP 03</div>
+                <h3>Impact and scale</h3>
+                <p>Guided rollouts, feedback loops, and modernization plans to keep you ahead.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq">
+        <div class="container">
+          <div class="section-intro reveal">
+            <p class="text-uppercase text-muted small" style="letter-spacing:0.3em;">FAQ</p>
+            <h2 class="section-title">What we routinely hear.</h2>
+            <p>Direct answers that frame timing, collaboration, and assurance.</p>
+          </div>
+          <div class="row g-3 mt-4">
+            <div class="col-12 reveal">
+              <article class="faq-item">
+                <h3>How quickly can we see a draft architecture?</h3>
+                <p>We deliver an executive-ready architecture outcome within two weeks of kickoff, complete with KPIs and risk notes.</p>
+              </article>
+            </div>
+            <div class="col-12 reveal">
+              <article class="faq-item">
+                <h3>Do you supplement internal teams or replace them?</h3>
+                <p>We augment core teams with senior leads and embed production-ready practices; handoffs are scheduled and documented.</p>
+              </article>
+            </div>
+            <div class="col-12 reveal">
+              <article class="faq-item">
+                <h3>What industries do you support?</h3>
+                <p>We partner with complex networks — finance, energy, climate, aerospace, and regulated services seeking AI acceleration.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="final-cta">
+        <div class="container">
+          <div class="cta-strip reveal">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+              <div>
+                <p class="text-uppercase small" style="letter-spacing:0.4em;">Next step</p>
+                <h3>Ready for a thoughtful, measurable partnership?</h3>
+              </div>
+              <a class="btn-custom btn-secondary reveal" href="#contact">Schedule the call</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-col reveal">
+            <h4>Services</h4>
+            <ul>
+              <li><a href="#features">AI Strategy</a></li>
+              <li><a href="#process">Delivery</a></li>
+              <li><a href="#final-cta">Innovation Labs</a></li>
+            </ul>
+          </div>
+          <div class="footer-col reveal">
+            <h4>Company</h4>
+            <ul>
+              <li><a href="#testimonials">Partners</a></li>
+              <li><a href="#faq">Policies</a></li>
+              <li><a href="https://find-and-update.company-information.service.gov.uk/company/05736979">Gov Profile</a></li>
+            </ul>
+          </div>
+          <div class="footer-col reveal">
+            <h4>Contact</h4>
+            <ul>
+              <li><a href="#contact">Brief</a></li>
+              <li><a href="mailto:hello@parilitas.com">hello@parilitas.com</a></li>
+              <li><a href="tel:+442079460000">+44 20 7946 0000</a></li>
+            </ul>
+          </div>
+          <div class="footer-col reveal">
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="#faq">Terms</a></li>
+              <li><a href="#faq">Privacy</a></li>
+              <li><a href="#faq">Cookies</a></li>
+            </ul>
+          </div>
+        </div>
+        <p class="final-note">
+          © 2026 PARILITAS LIMITED. Crafted for the discerning AI and software leaders.
+        </p>
+      </div>
+    </footer>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LIGNUM FORTIS LIMITED — AI & Software Development</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ENjdO4Dr2bkBIFxQpeoE6prQkheI5LkN4m+Bp3ZSF1z7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <style>
+    :root {
+      --color-dark: #05050a;
+      --color-surface: #0f1323;
+      --color-muted: #9da5b8;
+      --color-border: rgba(255, 255, 255, 0.15);
+      --color-accent: #5c6ac4;
+      --color-accent-soft: rgba(92, 106, 196, 0.15);
+      --color-white: #f7f7fb;
+      --color-card: #141828;
+      --space-xxs: 0.25rem;
+      --space-xs: 0.75rem;
+      --space-sm: 1.25rem;
+      --space-md: 2rem;
+      --space-lg: 3rem;
+      --space-xl: 4.5rem;
+      --radius-sm: 12px;
+      --radius-lg: 28px;
+      --shadow-soft: 0 20px 45px rgba(5, 5, 10, 0.45);
+      --shadow-hover: 0 25px 50px rgba(92, 106, 196, 0.35);
+      --header-height: 76px;
+      font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+      color: var(--color-white);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--color-dark);
+      color: var(--color-white);
+      line-height: 1.6;
+    }
+
+    main {
+      overflow-x: hidden;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 12;
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--color-border);
+      background: linear-gradient(180deg, rgba(5,5,10,0.95), rgba(5,5,10,0.8));
+    }
+
+    .nav-inner {
+      min-height: var(--header-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      padding: 0 var(--space-lg);
+    }
+
+    .nav-links {
+      list-style: none;
+      margin: 0;
+      display: flex;
+      gap: 1.5rem;
+      padding: 0;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      color: var(--color-muted);
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: var(--color-accent);
+    }
+
+    .nav-logo img {
+      max-height: 40px;
+      width: auto;
+      height: auto;
+    }
+
+    .btn-custom {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.9rem 1.6rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: transform 250ms ease, box-shadow 250ms ease, border-color 250ms ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--color-accent), #7280f3);
+      color: var(--color-white);
+      border-color: transparent;
+      box-shadow: 0 10px 30px rgba(92, 106, 196, 0.45);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border-color: var(--color-border);
+      color: var(--color-white);
+    }
+
+    .btn-custom:hover,
+    .btn-custom:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .hero {
+      min-height: 90vh;
+      position: relative;
+      background: url("hero.png") center/cover no-repeat;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg,
+        rgba(5, 5, 10, 0.9) 25%,
+        rgba(5, 5, 10, 0.5) 60%,
+        rgba(52, 55, 95, 0.85) 100%);
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: var(--space-lg);
+      max-width: 720px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 4vw, 4.1rem);
+      line-height: 1.1;
+      margin-bottom: var(--space-sm);
+    }
+
+    .hero p {
+      color: rgba(247, 247, 251, 0.8);
+      font-size: 1rem;
+      margin-bottom: var(--space-md);
+      max-width: 640px;
+    }
+
+    .hero .actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .social-proof {
+      margin-top: var(--space-lg);
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+    }
+
+    .social-proof svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--color-accent);
+    }
+
+    .section-wrapper {
+      padding: var(--space-xl) var(--space-lg);
+    }
+
+    section > .section-header {
+      margin-bottom: var(--space-md);
+    }
+
+    section h2 {
+      font-size: clamp(2.1rem, 3vw, 2.6rem);
+      margin-bottom: var(--space-xs);
+    }
+
+    section p.lede {
+      color: var(--color-muted);
+      max-width: 560px;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: var(--space-md);
+    }
+
+    .feature-card {
+      background: var(--color-card);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md);
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      transition: transform 280ms ease, box-shadow 280ms ease, border-color 280ms ease;
+    }
+
+    .feature-card:hover,
+    .feature-card:focus-within {
+      transform: translateY(-6px);
+      border-color: rgba(92, 106, 196, 0.8);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .feature-card svg {
+      width: 32px;
+      height: 32px;
+      fill: var(--color-accent);
+    }
+
+    .feature-card h3 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .feature-card p {
+      margin: 0;
+      color: var(--color-muted);
+      font-size: 0.95rem;
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: var(--space-md);
+    }
+
+    .process-card {
+      padding: var(--space-md);
+      border-radius: var(--radius-lg);
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .process-badge {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      border: 1px solid var(--color-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      margin-bottom: var(--space-sm);
+    }
+
+    .process-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle, rgba(92, 106, 196, 0.15), transparent 60%);
+      opacity: 0;
+      transition: opacity 250ms ease;
+    }
+
+    .process-card:hover::after,
+    .process-card:focus-within::after {
+      opacity: 1;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: var(--space-md);
+    }
+
+    .testimonial-card {
+      padding: var(--space-md);
+      background: var(--color-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      transition: transform 280ms ease, border-color 280ms ease;
+    }
+
+    .testimonial-card:hover,
+    .testimonial-card:focus-within {
+      transform: translateY(-4px);
+      border-color: rgba(92, 106, 196, 0.8);
+    }
+
+    .testimonial-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(92, 106, 196, 0.35), rgba(255, 255, 255, 0.25));
+      display: grid;
+      place-items: center;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.07em;
+    }
+
+    .testimonial-card small {
+      color: var(--color-muted);
+    }
+
+    .faq-list {
+      display: grid;
+      gap: var(--space-md);
+    }
+
+    .faq-item {
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: var(--space-md);
+      background: rgba(255, 255, 255, 0.02);
+      transition: border-color 250ms ease, transform 250ms ease;
+    }
+
+    .faq-item:hover,
+    .faq-item:focus-within {
+      border-color: rgba(92, 106, 196, 0.7);
+      transform: translateY(-2px);
+    }
+
+    .faq-item summary {
+      font-weight: 600;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .faq-item p {
+      margin: var(--space-xs) 0 0;
+      color: var(--color-muted);
+    }
+
+    .contact-section {
+      background: linear-gradient(135deg, rgba(92, 106, 196, 0.1), rgba(5, 5, 10, 0.95));
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .form-grid {
+      display: grid;
+      gap: var(--space-md);
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
+      color: rgba(247, 247, 251, 0.8);
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(10, 12, 24, 0.8);
+      color: var(--color-white);
+      transition: border-color 200ms ease, box-shadow 200ms ease;
+      font-size: 0.95rem;
+    }
+
+    textarea {
+      min-height: 160px;
+      resize: vertical;
+    }
+
+    input:focus-visible,
+    textarea:focus-visible {
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 3px rgba(92, 106, 196, 0.25);
+      outline: none;
+    }
+
+    .form-note {
+      font-size: 0.8rem;
+      color: var(--color-muted);
+      margin-top: var(--space-xs);
+    }
+
+    .cta-strip {
+      margin-top: var(--space-xl);
+      padding: var(--space-xl);
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, rgba(92, 106, 196, 0.2), rgba(255, 255, 255, 0.02));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+    }
+
+    .cta-strip h3 {
+      margin: 0;
+      font-size: clamp(1.8rem, 2.4vw, 2.2rem);
+    }
+
+    .footer {
+      padding: var(--space-lg);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(5, 5, 10, 0.9);
+    }
+
+    .footer-columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: var(--space-lg);
+    }
+
+    .footer-columns h4 {
+      margin-bottom: var(--space-xs);
+      font-size: 0.95rem;
+    }
+
+    .footer-columns a {
+      color: var(--color-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    .footer-columns a:hover,
+    .footer-columns a:focus-visible {
+      color: var(--color-accent);
+    }
+
+    .footer small {
+      display: block;
+      margin-top: var(--space-lg);
+      color: var(--color-muted);
+      font-size: 0.75rem;
+    }
+
+    main section {
+      scroll-margin-top: calc(var(--header-height) + 16px);
+    }
+
+    @media (max-width: 768px) {
+      .nav-inner {
+        flex-wrap: wrap;
+        padding: var(--space-xs) var(--space-md);
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+      }
+
+      .social-proof {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .cta-strip {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .nav-logo img {
+        max-height: 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo" aria-label="LIGNUM FORTIS logo">
+        <img src="logo.png" alt="LIGNUM FORTIS LIMITED" />
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#benefits">Services</a></li>
+          <li><a href="#process">Process</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <a class="btn-custom btn-primary reveal" href="#contact">Book a Discovery Call</a>
+    </div>
+  </header>
+
+  <main>
+    <section id="hero" class="hero">
+      <div class="hero-content">
+        <p class="eyebrow reveal" style="letter-spacing:0.4em; text-transform:uppercase; font-size:0.75rem; color:var(--color-muted)">LIGNUM FORTIS LIMITED</p>
+        <h1 class="reveal">AI & software development that elevates ambitious organizations.</h1>
+        <p class="reveal">
+          We craft resilient intelligence systems and bespoke software foundations for capital markets, regulated enterprise, and visionary teams that refuse
+          to compromise on quality.
+        </p>
+        <div class="actions">
+          <a class="btn-custom btn-primary reveal" href="#contact">Plan a Strategy Session</a>
+          <a class="btn-custom btn-secondary reveal" href="#testimonials">See Client Impact</a>
+        </div>
+        <div class="social-proof reveal" aria-label="Trusted by customer count and rating">
+          <span>Trusted by 200+ elite teams</span>
+          <span aria-label="5 star rating">
+            <svg viewBox="0 0 24 24" role="presentation" focusable="false">
+              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
+            </svg>
+            5.0 / 5 insights
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <section id="testimonials" class="section-wrapper">
+      <div class="section-header reveal">
+        <h2>Voices from the frontlines</h2>
+        <p class="lede">Leadership partners describe LIGNUM FORTIS as an extension of their core team—strategically calm and technically peerless.</p>
+      </div>
+      <div class="testimonials-grid">
+        <article class="testimonial-card reveal">
+          <div class="testimonial-avatar">JB</div>
+          <p>
+            “They orchestrated an entire intelligent automation suite, from behavioral research to secure deployment. Every milestone landed on time without drama.”
+          </p>
+          <small>Julian B. · COO, Meridian Trust</small>
+        </article>
+        <article class="testimonial-card reveal">
+          <div class="testimonial-avatar">SK</div>
+          <p>
+            “Complex AI risk modeling was untangled into a single stream of trust. Their communication is surgical, and their code lives within our compliance framework.”
+          </p>
+          <small>Sonia K. · Head of Strategy, Borealis Capital</small>
+        </article>
+        <article class="testimonial-card reveal">
+          <div class="testimonial-avatar">MT</div>
+          <p>
+            “When we needed an adaptable digital core, LIGNUM FORTIS delivered architecture that not only scaled fast but felt beautifully crafted.”
+          </p>
+          <small>Mara T. · Founder, North Ridge Labs</small>
+        </article>
+      </div>
+    </section>
+
+    <section id="process" class="section-wrapper">
+      <div class="section-header reveal">
+        <h2>How we guide your transformation</h2>
+        <p class="lede">A deliberate three-phase cadence that balances rigor with adaptability.</p>
+      </div>
+      <div class="process-grid">
+        <article class="process-card reveal">
+          <div class="process-badge">01</div>
+          <h3>Situational Intelligence</h3>
+          <p>Immersive discovery, compliance scoping, and dimensioned roadmap planning with your stakeholders.</p>
+        </article>
+        <article class="process-card reveal">
+          <div class="process-badge">02</div>
+          <h3>Architectural Synthesis</h3>
+          <p>Prototype, iterate, and validate intelligence layers with live data, automated guardrails, and ergonomics testing.</p>
+        </article>
+        <article class="process-card reveal">
+          <div class="process-badge">03</div>
+          <h3>Operational Mastery</h3>
+          <p>Secure launch, rolling observability, and strategic enablement so your team owns every capability.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="benefits" class="section-wrapper">
+      <div class="section-header reveal">
+        <h2>What discerning teams gain</h2>
+        <p class="lede">Precision-engineered services tuned for regulated, fast-moving businesses.</p>
+      </div>
+      <div class="benefits-grid">
+        <article class="feature-card reveal">
+          <svg viewBox="0 0 24 24">
+            <path d="M4 4h16v4H4zM4 10h10v10H4zM14 10h6v10h-6z"></path>
+          </svg>
+          <h3>Strategic AI Consulting</h3>
+          <p>Foundational frameworks that map opportunity, risk, and ROI before a single line of code.</p>
+        </article>
+        <article class="feature-card reveal">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 13h4v8H3zM9 9h4v12H9zM15 5h4v16h-4z"></path>
+          </svg>
+          <h3>Custom Software Craft</h3>
+          <p>Secure, observable platforms sculpted for velocity and uncompromised technical debt.</p>
+        </article>
+        <article class="feature-card reveal">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01z"></path>
+          </svg>
+          <h3>Operational AI</h3>
+          <p>Automation, orchestration, and insights delivered with built-in governance and transparency.</p>
+        </article>
+        <article class="feature-card reveal">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2a10 10 0 0 0-7 17l1.4-1.4A8 8 0 1 1 12 20.8V18h-3v-2h3v-1.8A5 5 0 1 0 9 18H7a10 10 0 0 0 5 2v2a12 12 0 0 1-6-10 12 12 0 0 1 12-12z"></path>
+          </svg>
+          <h3>Governed Intelligence</h3>
+          <p>Models and integrations that stay compliant, adaptive, and explainable.</p>
+        </article>
+        <article class="feature-card reveal">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 4l4 7h-3v7h-2v-7H8z"></path>
+          </svg>
+          <h3>Rapid Deployment</h3>
+          <p>Deployment pipelines, observability, and documentation that ships outrights.</p>
+        </article>
+        <article class="feature-card reveal">
+          <svg viewBox="0 0 24 24">
+            <path d="M4 6h16v2H4zm0 5h12v2H4zm0 5h8v2H4z"></path>
+          </svg>
+          <h3>Executive Enablement</h3>
+          <p>Transparent reporting, advisory, and service continuity for executive leadership.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" class="section-wrapper">
+      <div class="section-header reveal">
+        <h2>Plan the next release with confidence</h2>
+        <p class="lede">Tell us about your initiative and we will respond with a tailored engagement outline.</p>
+      </div>
+      <div class="contact-section reveal">
+        <form action="contact.php" method="POST">
+          <div class="form-grid">
+            <div>
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" required />
+            </div>
+            <div>
+              <label for="company">Company (optional)</label>
+              <input type="text" id="company" name="company" />
+            </div>
+            <div>
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+          </div>
+          <div class="form-grid" style="margin-top: var(--space-md);">
+            <div style="grid-column: 1 / -1;">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" required></textarea>
+              <p class="form-note">Describe the scope, timeline, and any compliance needs.</p>
+            </div>
+          </div>
+          <div class="form-grid" style="margin-top: var(--space-md);">
+            <button type="submit" class="btn-custom btn-primary" style="width: fit-content;">Submit project brief</button>
+            <span class="form-note">We respond within two business days with a detailed plan.</span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section id="faq" class="section-wrapper">
+      <div class="section-header reveal">
+        <h2>Questions we anticipate</h2>
+        <p class="lede">Clear communication keeps every engagement grounded.</p>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item reveal">
+          <summary>How do you protect sensitive data?</summary>
+          <p>We architect zero-trust data layers, use private cloud/air-gapped tooling where required, and enforce role-based access with audit trails.</p>
+        </details>
+        <details class="faq-item reveal">
+          <summary>Can you work with existing teams?</summary>
+          <p>Yes, our squads integrate as an embedded partner, pairing with your leaders to transfer knowledge while keeping velocity.</p>
+        </details>
+        <details class="faq-item reveal">
+          <summary>What industries do you specialize in?</summary>
+          <p>Capital markets, financial services, regulated enterprises, advanced engineering, and mission-driven innovation labs.</p>
+        </details>
+        <details class="faq-item reveal">
+          <summary>Is there an ongoing support offering?</summary>
+          <p>We provide tiered guardrails, monitoring playbooks, and long-term retainers for oversight and tuning.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="section-wrapper">
+      <div class="cta-strip reveal">
+        <h3 class="reveal">Ready to architect the future of your software intelligence?</h3>
+        <a class="btn-custom btn-secondary reveal" href="#contact">Start the conversation</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-columns">
+      <div>
+        <h4 class="reveal">Services</h4>
+        <a href="#benefits">AI Strategy</a><br />
+        <a href="#benefits">Software Engineering</a><br />
+        <a href="#process">Operational Excellence</a>
+      </div>
+      <div>
+        <h4 class="reveal">Company</h4>
+        <a href="#contact">Careers</a><br />
+        <a href="#contact">Leadership</a><br />
+        <a href="https://find-and-update.company-information.service.gov.uk/company/09396303" target="_blank" rel="noreferrer">Company Information</a>
+      </div>
+      <div>
+        <h4 class="reveal">Contact</h4>
+        <a href="mailto:hello@lignumfortis.com">hello@lignumfortis.com</a><br />
+        <a href="tel:+441234567890">+44 (0)1234 567 890</a>
+      </div>
+      <div>
+        <h4 class="reveal">Legal</h4>
+        <a href="#process">Privacy</a><br />
+        <a href="#faq">Terms</a>
+      </div>
+    </div>
+    <small>© 2026 LIGNUM FORTIS LIMITED. Crafted with precision in London.</small>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

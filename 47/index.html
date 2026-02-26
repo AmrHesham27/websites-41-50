@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LEVIOSA CONSULTING LIMITED — AI & Software Development</title>
+  <meta name="description" content="LEVIOSA CONSULTING — Strategic AI and software development for enterprise. Product design, ML, cloud engineering." />
+
+  <!-- Bootstrap CSS (layout utilities only) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="" crossorigin="anonymous">
+
+  <style>
+    /* Design system variables */
+    :root{
+      --accent: #64748B; /* Violet accent (chosen) */
+      --bg: #0b0c0f;
+      --surface-1: rgba(255,255,255,0.03);
+      --surface-2: rgba(255,255,255,0.04);
+      --muted: #a9afbf;
+      --glass: rgba(255,255,255,0.04);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow-sm: 0 6px 18px rgba(0,0,0,0.45);
+      --shadow-md: 0 18px 50px rgba(124,58,237,0.08);
+      --space-1: 6px;
+      --space-2: 12px;
+      --space-3: 20px;
+      --space-4: 32px;
+      --space-5: 48px;
+      --max-content-width: 1200px;
+      --nav-height: 76px;
+      color-scheme: dark;
+    }
+
+    /* Reset + base */
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: var(--bg);
+      color: #eef2ff;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+      -webkit-touch-callout:none;
+    }
+
+    a{color:inherit; text-decoration:none}
+
+    /* Sticky header */
+    header{
+      position:sticky;
+      top:0;
+      z-index:60;
+      backdrop-filter: blur(8px);
+      background: linear-gradient(180deg, rgba(10,11,13,0.6), rgba(10,11,13,0.45));
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .nav-inner{
+      height: var(--nav-height);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .brand{display:flex;align-items:center;gap:16px}
+    .brand img{height:40px;width:auto;max-height:40px;display:block}
+    @media (max-width:720px){ .brand img{max-height:32px} }
+
+    nav ul{list-style:none;display:flex;gap:20px;margin:0;padding:0;align-items:center}
+    nav a.nav-link{color:var(--muted);font-weight:600;font-size:0.95rem;padding:6px 8px;border-radius:8px}
+    nav a.nav-link:focus-visible, nav a.nav-link:hover{color:#fff; outline: none; background: rgba(255,255,255,0.02)}
+
+    .btn-custom{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 18px;
+      border-radius:12px;
+      font-weight:700;
+      font-size:0.95rem;
+      cursor:pointer;
+      border:0;
+      transition:transform .18s cubic-bezier(.2,.9,.2,1), box-shadow .18s ease, background-color .12s ease;
+    }
+    .btn-primary{
+      background: linear-gradient(90deg,var(--accent), #64748B);
+      color:white;
+      box-shadow: 0 10px 30px rgba(124,58,237,0.14);
+    }
+    .btn-primary:hover{transform:translateY(-3px); box-shadow: 0 22px 60px rgba(124,58,237,0.14)}
+    .btn-secondary{
+      background: transparent;
+      color: #e6e9ff;
+      border: 1px solid rgba(255,255,255,0.06);
+      backdrop-filter: blur(6px);
+    }
+    .btn-secondary:hover{transform:translateY(-2px); background: rgba(255,255,255,0.02)}
+
+    /* Hero */
+    .hero{
+      min-height: calc(100vh - var(--nav-height));
+      display:grid;
+      place-items:center;
+      position:relative;
+      color: #f8f7ff;
+      background-image: linear-gradient(180deg, rgba(11,11,13,0.35), rgba(11,11,13,0.55)), url('hero.png');
+      background-size: cover;
+      background-position: center;
+      padding: calc(var(--space-5) + var(--nav-height)) var(--space-4);
+      isolation:isolate;
+    }
+    .hero::after{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(600px 300px at 12% 30%, rgba(124,58,237,0.12), transparent 20%),
+                  linear-gradient(180deg, rgba(0,0,0,0.2), rgba(0,0,0,0.45));
+      pointer-events:none;
+      mix-blend-mode: overlay;
+    }
+    .hero-content{position:relative; max-width:var(--max-content-width); width:100%}
+    .kicker{display:inline-block;color:var(--muted); font-weight:600; letter-spacing:0.06em; font-size:.9rem}
+    .hero-title{
+      margin-top:16px;
+      font-weight:800;
+      line-height:1.02;
+      letter-spacing:-0.02em;
+      font-size: clamp(2.8rem, 5vw, 4rem); /* ~45-64px */
+      margin-bottom:12px;
+    }
+    .hero-sub{color:var(--muted); font-size:1.05rem; max-width:820px}
+    .hero-ctas{display:flex; gap:14px; margin-top:26px; flex-wrap:wrap}
+
+    /* social proof row */
+    .proof{
+      display:flex; gap:18px; align-items:center; margin-top:28px; color:var(--muted); font-weight:600;
+    }
+    .stars{display:inline-flex; gap:6px; align-items:center}
+    .stars svg{width:18px;height:18px;fill:var(--accent)}
+
+    /* Sections spacing and anchors */
+    main section{padding: var(--space-5) 0}
+    section .section-inner{max-width:var(--max-content-width); margin:0 auto; padding:0 var(--space-4)}
+    h2.section-title{font-size:1.55rem; margin:0 0 12px; color:#fff; font-weight:800}
+    p.lead{color:var(--muted); margin-bottom:18px}
+
+    /* Feature cards grid */
+    .features-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px}
+    @media (max-width:992px){ .features-grid{grid-template-columns:repeat(2,1fr)} }
+    @media (max-width:680px){ .features-grid{grid-template-columns:1fr} }
+    .card-neutral{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.015));
+      border:1px solid rgba(255,255,255,0.03);
+      padding:20px;
+      border-radius:var(--radius-md);
+      box-shadow:var(--shadow-sm);
+      transition: transform .22s cubic-bezier(.2,.9,.2,1), box-shadow .22s ease, border-color .22s ease;
+    }
+    .card-neutral:hover{transform:translateY(-6px); box-shadow:var(--shadow-md); border-color: rgba(124,58,237,0.12)}
+    .card-icon{width:56px;height:56px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); margin-right:12px}
+    .card-head{display:flex; align-items:center}
+    .card-title{font-weight:700; font-size:1.02rem; color:#fff}
+    .card-desc{color:var(--muted); margin-top:8px; font-size:.96rem}
+
+    /* How it works steps */
+    .steps{display:flex; gap:18px; align-items:stretch}
+    .step{
+      background: var(--surface-1);
+      border-radius:12px;
+      padding:18px;
+      flex:1;
+      border:1px solid rgba(255,255,255,0.03);
+      transition:transform .16s ease, box-shadow .16s ease;
+    }
+    .step:hover{transform:translateY(-6px); box-shadow: 0 20px 45px rgba(0,0,0,0.5)}
+    .step-badge{font-weight:800; color:var(--accent); font-size:1.05rem; background:rgba(124,58,237,0.08); padding:8px 12px; border-radius:10px}
+    @media (max-width:900px){ .steps{flex-direction:column} }
+
+    /* Testimonials */
+    .test-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px}
+    @media (max-width:1000px){ .test-grid{grid-template-columns:repeat(2,1fr)} }
+    @media (max-width:680px){ .test-grid{grid-template-columns:1fr} }
+    .testimonial{
+      padding:18px; border-radius:14px; background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.03); box-shadow:var(--shadow-sm);
+      transition: transform .18s ease;
+    }
+    .avatar{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--accent), #3b82f6); display:inline-block}
+    .testimonial:hover{transform:translateY(-6px)}
+
+    /* FAQ */
+    .faq-item{padding:14px 18px; border-radius:12px; background:var(--surface-2); margin-bottom:12px; border:1px solid rgba(255,255,255,0.02)}
+    .faq-q{display:flex; justify-content:space-between; align-items:center; cursor:default; font-weight:700}
+    .faq-a{color:var(--muted); margin-top:8px}
+
+    /* Contact form */
+    .form-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:22px; border-radius:14px; border:1px solid rgba(255,255,255,0.03)}
+    label{font-weight:700; font-size:.95rem; display:block; margin-bottom:8px}
+    input[type="text"], input[type="email"], textarea{
+      width:100%; padding:12px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.04);
+      background:transparent; color: #eef2ff; resize:vertical; min-height:44px;
+      outline: none; transition: box-shadow .14s ease, border-color .12s ease, transform .12s ease;
+    }
+    input:focus, textarea:focus{box-shadow:0 8px 30px rgba(124,58,237,0.08); border-color: rgba(124,58,237,0.2)}
+    .help{font-size:.9rem; color:var(--muted); margin-top:8px}
+
+    /* CTA strip */
+    .cta-strip{border-radius:14px; padding:28px; display:flex; align-items:center; justify-content:space-between; gap:18px; background: linear-gradient(90deg, rgba(124,58,237,0.12), rgba(59,130,246,0.04)); border:1px solid rgba(124,58,237,0.06)}
+    @media (max-width:720px){ .cta-strip{flex-direction:column; align-items:flex-start} }
+
+    /* Footer */
+    footer{border-top:1px solid rgba(255,255,255,0.03); padding:36px 0; color:var(--muted)}
+    .footer-col h4{color:#fff; font-weight:800; margin-bottom:12px}
+    .muted-link{color:var(--muted); display:block; margin-bottom:8px; font-size:.95rem}
+
+    /* Focus-visible */
+    :focus-visible{outline:3px solid rgba(124,58,237,0.16); outline-offset:3px; border-radius:8px}
+
+    /* Accessibility helper: anchor offset */
+    [id]{scroll-margin-top: calc(var(--nav-height) + 18px)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav-inner">
+      <div class="brand">
+        <a href="#home" aria-label="LeviOsa Consulting home"><img src="logo.png" alt="LEVIOSA Consulting logo" class="logo"></a>
+      </div>
+      <nav aria-label="Primary navigation">
+        <ul>
+          <li><a class="nav-link" href="#services">Services</a></li>
+          <li><a class="nav-link" href="#how">How</a></li>
+          <li><a class="nav-link" href="#testimonials">Testimonials</a></li>
+          <li><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="d-none d-lg-flex align-items-center">
+        <a class="btn-custom btn-secondary" href="#contact">Get in touch</a>
+      </div>
+      <div class="d-lg-none">
+        <!-- mobile simplified CTA -->
+        <a class="btn-custom btn-primary" href="#contact">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section id="home" class="hero">
+      <div class="hero-content section-inner container">
+        <span class="kicker reveal">LEVIOSA CONSULTING</span>
+        <h1 class="hero-title reveal">AI-first product engineering for ambitious companies</h1>
+        <p class="hero-sub reveal">We design and deliver production-grade AI systems and software products — from strategy and prototypes to robust cloud-native engineering.</p>
+        <div class="hero-ctas reveal">
+          <a class="btn-custom btn-primary reveal" href="#contact">Start a project</a>
+          <a class="btn-custom btn-secondary reveal" href="#services">Our services</a>
+        </div>
+
+        <div class="proof reveal" aria-label="Trusted by companies and teams">
+          <div class="stars" role="img" aria-hidden="true">
+            <!-- 5 inline SVG stars -->
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .587l3.668 7.431L23.5 9.75l-5.667 5.53L19.336 24 12 20.013 4.664 24l1.503-8.72L.5 9.75l7.832-1.732L12 .587z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .587l3.668 7.431L23.5 9.75l-5.667 5.53L19.336 24 12 20.013 4.664 24l1.503-8.72L.5 9.75l7.832-1.732L12 .587z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .587l3.668 7.431L23.5 9.75l-5.667 5.53L19.336 24 12 20.013 4.664 24l1.503-8.72L.5 9.75l7.832-1.732L12 .587z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .587l3.668 7.431L23.5 9.75l-5.667 5.53L19.336 24 12 20.013 4.664 24l1.503-8.72L.5 9.75l7.832-1.732L12 .587z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .587l3.668 7.431L23.5 9.75l-5.667 5.53L19.336 24 12 20.013 4.664 24l1.503-8.72L.5 9.75l7.832-1.732L12 .587z"/></svg>
+          </div>
+          <div style="opacity:.95">Trusted by 200+ teams</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DYNAMIC SECTIONS (randomized order for this generation)
+         Order chosen: Testimonials, Services (features), Contact, How It Works, CTA Strip, FAQ
+    -->
+
+    <!-- TESTIMONIALS -->
+    <section id="testimonials" class="reveal">
+      <div class="section-inner container">
+        <div class="row align-items-center">
+          <div class="col-12 col-lg-6">
+            <h2 class="section-title reveal">What clients say</h2>
+            <p class="lead reveal">Long-term partnerships with measurable business impact — reliability, speed, and craftsmanship.</p>
+          </div>
+          <div class="col-12 col-lg-6">
+            <div class="test-grid reveal">
+              <div class="testimonial reveal">
+                <div class="d-flex align-items-center gap-3">
+                  <span class="avatar" aria-hidden="true"></span>
+                  <div>
+                    <div style="font-weight:800">Morgan R.</div>
+                    <div class="muted" style="color:var(--muted);font-size:.92rem">VP Product, Fintech</div>
+                  </div>
+                </div>
+                <p class="mt-3" style="color:var(--muted)">"LeviOsa helped us transform an experimental model into a production service with clear engineering ownership and predictable delivery."</p>
+              </div>
+              <div class="testimonial reveal">
+                <div class="d-flex align-items-center gap-3">
+                  <span class="avatar" aria-hidden="true"></span>
+                  <div>
+                    <div style="font-weight:800">Aisha K.</div>
+                    <div class="muted" style="color:var(--muted);font-size:.92rem">Head of Data, Retail</div>
+                  </div>
+                </div>
+                <p class="mt-3" style="color:var(--muted)">"They paired product thinking with deep ML operational expertise — a rare combination."</p>
+              </div>
+              <div class="testimonial reveal">
+                <div class="d-flex align-items-center gap-3">
+                  <span class="avatar" aria-hidden="true"></span>
+                  <div>
+                    <div style="font-weight:800">Jonas P.</div>
+                    <div class="muted" style="color:var(--muted);font-size:.92rem">CTO, SaaS</div>
+                  </div>
+                </div>
+                <p class="mt-3" style="color:var(--muted)">"Clear roadmaps, excellent code quality, and a product-first approach that accelerated our roadmap."</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES / FEATURES -->
+    <section id="services">
+      <div class="section-inner container">
+        <div class="row">
+          <div class="col-12 col-lg-5">
+            <h2 class="section-title reveal">Services we deliver</h2>
+            <p class="lead reveal">End-to-end product engineering, ML systems, and cloud platforms tailored to enterprise needs.</p>
+          </div>
+          <div class="col-12 col-lg-7">
+            <div class="features-grid">
+              <div class="card-neutral reveal">
+                <div class="card-head">
+                  <div class="card-icon" aria-hidden="true">
+                    <!-- Inline svg: product -->
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3 7v10l9 5 9-5V7l-9-5-9 5z" fill="url(#g)"/><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#7c3aed"/><stop offset="1" stop-color="#5b21b6"/></linearGradient></defs></svg>
+                  </div>
+                  <div>
+                    <div class="card-title">Product Strategy & Prototyping</div>
+                    <div class="card-desc">Rapid validation with measurable KPIs and executable roadmaps.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-neutral reveal">
+                <div class="card-head">
+                  <div class="card-icon" aria-hidden="true">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 4h16v4H4zM4 10h16v10H4z" fill="#7c3aed"/></svg>
+                  </div>
+                  <div>
+                    <div class="card-title">ML Engineering & Ops</div>
+                    <div class="card-desc">Production pipelines, monitoring, and model governance.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-neutral reveal">
+                <div class="card-head">
+                  <div class="card-icon" aria-hidden="true">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3" fill="#7c3aed"/><path d="M6 20c1.5-4 6-6 6-6s4.5 2 6 6H6z" fill="#5b21b6"/></svg>
+                  </div>
+                  <div>
+                    <div class="card-title">Cloud-native Architecture</div>
+                    <div class="card-desc">Resilient, cost-aware infrastructure and secure deployments.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-neutral reveal">
+                <div class="card-head">
+                  <div class="card-icon" aria-hidden="true">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" fill="#7c3aed"/></svg>
+                  </div>
+                  <div>
+                    <div class="card-title">UX & Product Design</div>
+                    <div class="card-desc">Design systems, flows, and high-conversion interfaces.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-neutral reveal">
+                <div class="card-head">
+                  <div class="card-icon" aria-hidden="true">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2l3 6 6 .5-4.5 3.8L19 21l-7-4-7 4 2.5-8.7L3 8.5 9 8 12 2z" fill="#7c3aed"/></svg>
+                  </div>
+                  <div>
+                    <div class="card-title">Security & Compliance</div>
+                    <div class="card-desc">Threat modeling, audits, and enterprise-ready controls.</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-neutral reveal">
+                <div class="card-head">
+                  <div class="card-icon" aria-hidden="true">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M2 12h20M12 2v20" stroke="#7c3aed" stroke-width="1.6"/></svg>
+                  </div>
+                  <div>
+                    <div class="card-title">Platform Integrations</div>
+                    <div class="card-desc">APIs, event-driven systems, and third-party integrations.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT (placed mid-flow for this generation) -->
+    <section id="contact">
+      <div class="section-inner container">
+        <div class="row">
+          <div class="col-12 col-lg-6">
+            <h2 class="section-title reveal">Talk to our engineers</h2>
+            <p class="lead reveal">Share a brief about your challenge — we’ll respond with a proposed scope and next steps.</p>
+            <div class="mt-4 reveal">
+              <div class="d-flex gap-3 align-items-start">
+                <div style="width:44px;height:44px;border-radius:10px;background:linear-gradient(90deg,var(--accent),#5b21b6)"></div>
+                <div>
+                  <div style="font-weight:800">Discovery call</div>
+                  <div class="muted" style="color:var(--muted)">30-45 minutes to define scope</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-6">
+            <form class="form-card reveal" action="contact.php" method="POST" aria-labelledby="contact-heading">
+              <h3 id="contact-heading" style="margin-top:0">Start the conversation</h3>
+              <div class="mb-3">
+                <label for="name">Name <span aria-hidden="true" style="color:var(--muted)">*</span></label>
+                <input type="text" id="name" name="name" required>
+              </div>
+              <div class="mb-3">
+                <label for="email">Email <span aria-hidden="true" style="color:var(--muted)">*</span></label>
+                <input type="email" id="email" name="email" required>
+              </div>
+              <div class="mb-3">
+                <label for="company">Company</label>
+                <input type="text" id="company" name="company">
+              </div>
+              <div class="mb-3">
+                <label for="message">Message <span aria-hidden="true" style="color:var(--muted)">*</span></label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+              </div>
+              <div class="help">We typically reply within 2 business days. No spam. You can also attach a brief after submitting.</div>
+              <div class="mt-3 d-flex gap-3">
+                <button class="btn-custom btn-primary" type="submit">Send message</button>
+                <a class="btn-custom btn-secondary" href="#services">View services</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how">
+      <div class="section-inner container">
+        <div class="row">
+          <div class="col-12 col-lg-4">
+            <h2 class="section-title reveal">How we work</h2>
+            <p class="lead reveal">A concise three-phase approach that reduces risk and delivers outcomes.</p>
+          </div>
+          <div class="col-12 col-lg-8">
+            <div class="steps reveal">
+              <div class="step reveal">
+                <div class="step-badge">01</div>
+                <h4 style="margin-top:12px;color:#fff">Discovery & Strategy</h4>
+                <p class="muted" style="color:var(--muted)">Understand the business objectives, success metrics, and constraints.</p>
+              </div>
+              <div class="step reveal">
+                <div class="step-badge">02</div>
+                <h4 style="margin-top:12px;color:#fff">Build & Validate</h4>
+                <p class="muted" style="color:var(--muted)">Iterative delivery with experiments, prototypes, and user feedback.</p>
+              </div>
+              <div class="step reveal">
+                <div class="step-badge">03</div>
+                <h4 style="margin-top:12px;color:#fff">Scale & Operate</h4>
+                <p class="muted" style="color:var(--muted)">Operational excellence, monitoring, and continuous improvements.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA STRIP (placed before FAQ here) -->
+    <section id="final-cta">
+      <div class="section-inner container">
+        <div class="cta-strip reveal">
+          <div>
+            <div style="font-weight:800;font-size:1.15rem;color:#fff">Ready to ship reliable AI products?</div>
+            <div class="muted" style="color:var(--muted)">Let’s align on outcomes, not just features.</div>
+          </div>
+          <div>
+            <a class="btn-custom btn-primary reveal" href="#contact">Schedule a discovery</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="section-inner container">
+        <div class="row">
+          <div class="col-12 col-lg-6">
+            <h2 class="section-title reveal">FAQ</h2>
+            <p class="lead reveal">Common questions we hear before starting an engagement.</p>
+          </div>
+          <div class="col-12 col-lg-6">
+            <div class="faq-item reveal">
+              <div class="faq-q">How long does a typical project take?</div>
+              <div class="faq-a">Most projects range from 6–20 weeks depending on scope. We split work into milestones with clear outcomes.</div>
+            </div>
+            <div class="faq-item reveal">
+              <div class="faq-q">Do you provide ongoing support?</div>
+              <div class="faq-a">Yes — we offer maintenance, monitoring, and feature roadmaps for long-term partnerships.</div>
+            </div>
+            <div class="faq-item reveal">
+              <div class="faq-q">Can you work with our internal teams?</div>
+              <div class="faq-a">Absolutely. We embed with product and engineering teams and provide knowledge transfer and documentation.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="section-inner container">
+      <div class="row">
+        <div class="col-12 col-md-3 footer-col">
+          <h4 class="reveal">Services</h4>
+          <a class="muted-link" href="#services">Consulting</a>
+          <a class="muted-link" href="#services">Engineering</a>
+          <a class="muted-link" href="#services">Design</a>
+        </div>
+        <div class="col-12 col-md-3 footer-col">
+          <h4 class="reveal">Company</h4>
+          <a class="muted-link" href="#home">About</a>
+          <a class="muted-link" href="#contact">Careers</a>
+        </div>
+        <div class="col-12 col-md-3 footer-col">
+          <h4 class="reveal">Contact</h4>
+          <div class="muted-link">hello@leviosa.consulting</div>
+          <div class="muted-link">+44 • 20 • 0000 0000</div>
+        </div>
+        <div class="col-12 col-md-3 footer-col">
+          <h4 class="reveal">Legal</h4>
+          <a class="muted-link" href="https://find-and-update.company-information.service.gov.uk/company/09275219" target="_blank" rel="noopener">Company details</a>
+          <a class="muted-link" href="#privacy">Privacy</a>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-12" style="border-top:1px solid rgba(255,255,255,0.02); padding-top:18px; color:var(--muted)">
+          &copy; <span id="year">2026</span> LEVIOSA CONSULTING LIMITED — All rights reserved.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Local script (animation reveals) -->
+  <script src="script.js" defer></script>
+</body>
+</html>
+

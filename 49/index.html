@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>WORLDWIDE SOLUTIONS LIMITED — AI & Software Development</title>
+
+  <!-- Bootstrap 5 CSS (layout utilities only) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    /*
+      Design system & variables
+    */
+    :root{
+      /* Theme selection: Dark theme with CYAN accent (restrained) */
+      --bg: #0b0f12;
+      --surface-1: #0f1518;
+      --surface-2: #12171b;
+      --muted: #98a5ad;
+      --text: #e6eef3;
+      --text-strong: #f7fbfe;
+      --accent: #10B981; /* cyan */
+      --accent-600: #10B981;
+      --glass: rgba(255,255,255,0.04);
+
+      /* spacing scale */
+      --space-xxs: 4px;
+      --space-xs: 8px;
+      --space-sm: 12px;
+      --space-md: 20px;
+      --space-lg: 36px;
+      --space-xl: 56px;
+
+      /* radii */
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+
+      /* shadows */
+      --shadow-1: 0 6px 18px rgba(2,6,10,0.5);
+      --shadow-2: 0 10px 30px rgba(2,6,10,0.6);
+
+      /* typography */
+      --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      --lead: 1.35;
+    }
+
+    /* Global reset */
+    *{box-sizing:border-box}
+    html,body{
+      height:100%;
+      background:var(--bg);
+      color:var(--text);
+      font-family:var(--font-sans);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+      scroll-behavior:smooth;
+    }
+
+    p, h4, h3, h2, h1 {
+        color: white !important;
+    }
+
+    /* Accessibility: focus-visible */
+    :focus{outline:none}
+    :focus-visible{
+      outline:3px solid color-mix(in srgb, var(--accent) 30%, transparent);
+      outline-offset:3px;
+      border-radius:6px;
+    }
+
+    /* Sticky header */
+    header.site-header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter: blur(8px) saturate(110%);
+      background: linear-gradient(180deg, rgba(12,16,19,0.6), rgba(12,16,19,0.35));
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .nav-inner{
+      max-width:1200px;
+      margin:0 auto;
+      padding:var(--space-sm) var(--space-md);
+      display:flex;
+      align-items:center;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+
+    /* Logo */
+    .brand img{
+      height:40px;
+      width:auto;
+      max-height:40px;
+      display:block;
+    }
+    @media (max-width:576px){ .brand img{ max-height:32px; height:auto } }
+
+    /* Nav links */
+    .nav-links{
+      margin-left:auto;
+      display:flex;
+      gap:18px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .nav-links a{
+      color:var(--muted);
+      text-decoration:none;
+      font-weight:600;
+      letter-spacing:0.2px;
+      padding:8px 10px;
+      border-radius:8px;
+      transition: color .18s ease, background-color .18s ease, transform .12s ease;
+    }
+    .nav-links a:hover{ color:var(--text-strong); background:rgba(255,255,255,0.02); transform:translateY(-2px) }
+    .nav-links a:active{ transform:translateY(0) }
+
+    /* Primary CTA in header */
+    .nav-cta{
+      display:inline-grid;
+      place-items:center;
+      padding:8px 14px;
+      background:linear-gradient(90deg,var(--accent) 0%, color-mix(in srgb,var(--accent) 70%, black) 100%);
+      color: #032025;
+      font-weight:700;
+      border-radius:10px;
+      box-shadow: 0 6px 20px rgba(6,182,212,0.12);
+      text-decoration:none;
+    }
+    .nav-cta:hover{ filter:brightness(.98); transform:translateY(-2px) }
+
+    /* Main hero */
+    .hero{
+      position:relative;
+      min-height:72vh;
+      display:flex;
+      align-items:center;
+      color:var(--text-strong);
+      margin-bottom:var(--space-xl);
+      overflow:hidden;
+    }
+    .hero-bg{
+      position:absolute;
+      inset:0;
+      /* explicit local path, no-repeat and cover to ensure reliable loading */
+      background-image: url('./hero.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center center;
+      background-color: #081016; /* fallback while image loads */
+      filter: saturate(.95) contrast(.95);
+      transform: scale(1.03);
+      z-index:0; /* keep behind content but above page background */
+    }
+    .hero::before{ 
+        z-index:1;
+    } /* overlay sits above background */
+    /* decorative blur */
+    .hero-accent{
+      position:absolute;
+      right:-10%;
+      top:6%;
+      width:42%;
+      height:60%;
+      background:radial-gradient(closest-side, color-mix(in srgb,var(--accent) 28%, transparent), transparent 60%);
+      filter: blur(48px) saturate(120%);
+      opacity:.7;
+      z-index:-1;
+    }
+
+    .hero-content{
+      max-width:1200px;
+      margin:0 auto;
+      padding:calc(var(--space-xl)) var(--space-md);
+      display:grid;
+      grid-template-columns: 1fr 380px;
+      gap:28px;
+      align-items:center;
+      width:100%;
+      position:relative;
+      z-index:2; /* ensure content sits above overlay and background */
+    }
+    @media (max-width:992px){ .hero-content{ grid-template-columns: 1fr; } }
+
+    .hero-copy h1{
+      margin:0 0 16px;
+      font-weight:800;
+      font-size: clamp(36px, 6.4vw, 56px);
+      line-height:1.02;
+      letter-spacing:-0.02em;
+      color:var(--text-strong);
+    }
+    .hero-copy p.lead{
+      color:var(--muted);
+      margin:0 0 22px;
+      max-width:72ch;
+      font-size:1.06rem;
+      line-height:var(--lead);
+    }
+
+    .hero-actions{ display:flex; gap:12px; flex-wrap:wrap }
+    .btn-primary{
+      display:inline-grid;
+      place-items:center;
+      padding:12px 18px;
+      border-radius:12px;
+      font-weight:700;
+      color:#032025;
+      background:linear-gradient(90deg,var(--accent) 0%, color-mix(in srgb,var(--accent) 70%, black) 100%);
+      box-shadow: 0 10px 30px rgba(6,182,212,0.12);
+      text-decoration:none;
+      transition: transform .14s ease, box-shadow .14s ease;
+    }
+    .btn-primary:hover{ transform:translateY(-3px); box-shadow: 0 18px 40px rgba(6,182,212,0.14) }
+
+    .btn-ghost{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:10px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      color:var(--text-strong);
+      border:1px solid rgba(255,255,255,0.04);
+      text-decoration:none;
+      transition: transform .12s ease, background .12s ease;
+    }
+    .btn-ghost:hover{ transform:translateY(-2px); background:rgba(255,255,255,0.03) }
+
+    /* social proof */
+    .social-proof{
+      margin-top:var(--space-md);
+      display:flex;
+      align-items:center;
+      gap:18px;
+      color:var(--muted);
+      font-weight:600;
+    }
+    .stars{ display:flex; gap:6px; align-items:center }
+
+    /* right column card */
+    .hero-panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:16px;
+      padding:20px;
+      border:1px solid rgba(255,255,255,0.04);
+      box-shadow:var(--shadow-1);
+      color:var(--text);
+    }
+    .hero-panel h4{ margin:0 0 8px; color:var(--text-strong) }
+    .meta-row{ display:flex; gap:12px; align-items:center; color:var(--muted); font-size:0.95rem }
+
+    /* Section basics */
+    main{ max-width:1200px; margin:0 auto; padding:0 var(--space-md) 80px; }
+    section{ padding: var(--space-lg) 0; }
+    section h2{ font-size: clamp(20px, 3.2vw, 28px); margin:0 0 10px; color:var(--text-strong) }
+    section p.intro{ color:var(--muted); margin:0 0 22px; max-width:70ch }
+
+    /* Feature cards */
+    .features-grid{
+      display:grid;
+      grid-template-columns: repeat(3,1fr);
+      gap:18px;
+    }
+    @media (max-width:992px){ .features-grid{ grid-template-columns:repeat(2,1fr) } }
+    @media (max-width:576px){ .features-grid{ grid-template-columns:1fr } }
+
+    .feature-card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+      border-radius:14px;
+      padding:18px;
+      border:1px solid rgba(255,255,255,0.03);
+      transition: transform .18s ease, box-shadow .18s ease;
+      box-shadow: 0 6px 18px rgba(2,6,8,0.45);
+    }
+    .feature-card:hover{ transform: translateY(-6px); box-shadow: var(--shadow-2) }
+    .feature-icon{
+      width:48px;height:48px;border-radius:10px;
+      display:grid;place-items:center;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      margin-bottom:12px;
+    }
+    .feature-card h3{ margin:0 0 6px; font-size:1.05rem; color:var(--text-strong) }
+    .feature-card p{ margin:0; color:var(--muted); font-size:0.95rem }
+
+    /* How it works steps */
+    .steps{
+      display:flex;
+      gap:18px;
+      align-items:stretch;
+    }
+    @media (max-width:992px){ .steps{ flex-direction:column } }
+    .step{
+      background:transparent;
+      border-radius:12px;
+      padding:18px;
+      border:1px solid rgba(255,255,255,0.03);
+      flex:1;
+      transition: transform .16s ease;
+    }
+    .step:hover{ transform:translateY(-6px) }
+    .step-badge{
+      font-weight:900;
+      color:var(--text-strong);
+      background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      width:56px;
+      height:56px;
+      display:grid;
+      place-items:center;
+      border-radius:12px;
+      font-size:1.05rem;
+      margin-bottom:12px;
+    }
+
+    /* Testimonials */
+    .testimonials{
+      display:grid;
+      grid-template-columns: repeat(3,1fr);
+      gap:18px;
+    }
+    @media (max-width:992px){ .testimonials{ grid-template-columns:1fr } }
+    .testimonial{
+      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+      border-radius:14px;
+      padding:18px;
+      border:1px solid rgba(255,255,255,0.03);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .testimonial:hover{ transform:translateY(-6px); box-shadow: var(--shadow-2) }
+    .avatar{
+      width:48px;height:48px;border-radius:50%;
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      display:inline-block;margin-right:12px;
+    }
+    .quote{ color:var(--muted); margin-top:12px; font-size:0.98rem }
+
+    /* FAQ (using details for native accessibility) */
+    .faq-list{ display:grid; gap:12px }
+    details{
+      background: linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.01));
+      padding:14px 16px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    summary{
+      cursor:pointer;
+      font-weight:700;
+      color:var(--text-strong);
+      list-style:none;
+      display:flex;align-items:center;gap:10px;
+    }
+    details[open]{ box-shadow: var(--shadow-1); transform: translateY(-2px) }
+
+    /* Contact form */
+    .contact-wrap{
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:24px;
+      align-items:start;
+    }
+    @media (max-width:992px){ .contact-wrap{ grid-template-columns:1fr } }
+    .form-card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+      padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);
+      box-shadow: var(--shadow-1);
+    }
+    .form-row{ display:flex; gap:12px }
+    .form-row .col{ flex:1 }
+    label{ display:block; font-weight:700; color:var(--text-strong); margin-bottom:6px; font-size:0.92rem }
+    input[type="text"], input[type="email"], textarea{
+      width:100%;
+      padding:12px 14px;
+      border-radius:10px;
+      background: rgba(255,255,255,0.02);
+      border:1px solid rgba(255,255,255,0.04);
+      color:var(--text);
+      resize:vertical;
+      transition: box-shadow .12s ease, transform .08s ease;
+    }
+    input:focus, textarea:focus{ box-shadow: 0 8px 30px rgba(6,182,212,0.06); transform:translateY(-2px) }
+
+    .help{ color:var(--muted); font-size:0.88rem; margin-top:8px }
+
+    /* Final CTA strip */
+    .cta-strip{
+      margin-top:var(--space-lg);
+      padding:22px;
+      border-radius:12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      background: linear-gradient(90deg, rgba(6,182,212,0.06), rgba(6,182,212,0.02));
+      border:1px solid rgba(6,182,212,0.06);
+    }
+    .cta-strip h3{ margin:0; font-size:1.15rem; color:var(--text-strong) }
+
+    /* Footer */
+    footer{
+      border-top:1px solid rgba(255,255,255,0.03);
+      padding:var(--space-lg) var(--space-md);
+      color:var(--muted);
+    }
+    .footer-grid{ display:grid; grid-template-columns: repeat(4,1fr); gap:20px; max-width:1200px; margin:0 auto; }
+    @media (max-width:992px){ .footer-grid{ grid-template-columns: repeat(2,1fr) } }
+    @media (max-width:576px){ .footer-grid{ grid-template-columns: 1fr } }
+    footer a{ color:var(--muted); text-decoration:none }
+    footer a:hover{ color:var(--text-strong) }
+
+    /* small utilities */
+    .muted{ color:var(--muted) }
+    .caps{ text-transform:uppercase; letter-spacing:1px; font-weight:700; font-size:12px; color:var(--muted) }
+
+    /*
+      In-page anchor spacing for sticky header
+    */
+    :target{ scroll-margin-top: 92px; } /* header height buffer */
+  </style>
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <nav class="nav-inner" aria-label="Main">
+      <div class="brand">
+        <a href="#hero" aria-label="WORLDWIDE SOLUTIONS LIMITED home">
+          <img src="logo.png" alt="WORLDWIDE SOLUTIONS LIMITED logo">
+        </a>
+      </div>
+
+      <div class="nav-links" role="navigation" aria-label="Primary navigation">
+        <a href="#features">Services</a>
+        <a href="#how">How</a>
+        <a href="#testimonials">Clients</a>
+        <a href="#faq">FAQ</a>
+
+        <a class="nav-cta" href="#contact" aria-label="Get in touch">Get in touch</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section id="hero" class="hero" aria-label="Intro hero">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-accent" aria-hidden="true"></div>
+
+      <div class="hero-content">
+        <div class="hero-copy">
+          <h1 class="reveal">We design & build AI-first products that move markets.</h1>
+          <p class="lead reveal">WORLDWIDE SOLUTIONS LIMITED partners with visionary teams to create scalable AI systems, custom software, and resilient platforms — from research to production.</p>
+
+          <div class="hero-actions">
+            <a class="btn-primary reveal" href="#contact" role="button">Start a project</a>
+            <a class="btn-ghost reveal" href="#how" role="button">Our process</a>
+          </div>
+
+          <div class="social-proof reveal" aria-label="Trusted by">
+            <div>Trusted by <strong>200+ teams</strong></div>
+            <div class="stars" aria-hidden="true">
+              <!-- 5 star inline SVGs -->
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 .587l3.668 7.431L23.6 9.75l-5.5 5.362L19.335 24 12 20.02 4.665 24l1.235-8.888L.4 9.75l7.932-1.732L12 .587z" fill="currentColor" style="color:var(--accent)"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 .587l3.668 7.431L23.6 9.75l-5.5 5.362L19.335 24 12 20.02 4.665 24l1.235-8.888L.4 9.75l7.932-1.732L12 .587z" fill="currentColor" style="color:var(--accent)"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 .587l3.668 7.431L23.6 9.75l-5.5 5.362L19.335 24 12 20.02 4.665 24l1.235-8.888L.4 9.75l7.932-1.732L12 .587z" fill="currentColor" style="color:var(--accent)"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 .587l3.668 7.431L23.6 9.75l-5.5 5.362L19.335 24 12 20.02 4.665 24l1.235-8.888L.4 9.75l7.932-1.732L12 .587z" fill="currentColor" style="color:var(--accent)"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 .587l3.668 7.431L23.6 9.75l-5.5 5.362L19.335 24 12 20.02 4.665 24l1.235-8.888L.4 9.75l7.932-1.732L12 .587z" fill="currentColor" style="color:var(--accent)"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <aside class="hero-panel reveal" aria-hidden="false">
+          <h4>Selected outcomes</h4>
+          <div class="meta-row">
+            <div>
+              <strong>AI-driven personalization</strong>
+              <div class="muted">+28% conversion uplift for a fintech client</div>
+            </div>
+          </div>
+
+          <hr style="border:none;height:1px;background:rgba(255,255,255,0.03);margin:14px 0">
+
+          <div style="display:flex;gap:10px;align-items:center;justify-content:space-between;">
+            <div class="muted">Speed to production</div>
+            <div style="font-weight:800;color:var(--text-strong)">8–12 weeks</div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- RANDOMIZED SECTIONS (order chosen for this generation) -->
+    <!-- Order for this page: How It Works, Features, Contact, Testimonials, FAQ, Final CTA -->
+    <section id="how" aria-labelledby="how-heading">
+      <h2 id="how-heading" class="reveal">How we partner</h2>
+      <p class="intro reveal">We blend research-grade ML engineering with pragmatic product design to reduce risk and accelerate outcomes. Our approach emphasizes robust pipelines, observability, and ethical model stewardship.</p>
+
+      <div class="steps reveal" style="margin-top:18px;">
+        <div class="step reveal">
+          <div class="step-badge">01</div>
+          <h3>Discovery & research</h3>
+          <p class="muted">Domain analysis, feasibility, and initial model prototyping to validate impact before heavy investment.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-badge">02</div>
+          <h3>Build & integrate</h3>
+          <p class="muted">Production-ready pipelines, APIs, and microservices engineered for reliability and scale.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-badge">03</div>
+          <h3>Operate & iterate</h3>
+          <p class="muted">Monitoring, A/B experimentation, and continuous model improvement aligned with business metrics.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" aria-labelledby="features-heading">
+      <h2 id="features-heading" class="reveal">What we deliver</h2>
+      <p class="intro reveal">Custom solutions focused on ROI: production ML, platform engineering, secure integrations, and product design that scales.</p>
+
+      <div class="features-grid" style="margin-top:18px;">
+        <article class="feature-card reveal">
+          <div class="feature-icon" aria-hidden="true">
+            <!-- inline svg: model -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 12h16" stroke="currentColor" stroke-width="1.4" style="color:var(--accent)"/><path d="M7 5v14" stroke="currentColor" stroke-width="1.4" style="color:var(--text)"/></svg>
+          </div>
+          <h3>Production ML</h3>
+          <p>Robust model serving, autoscaling inference, and low-latency APIs tailored to your product.</p>
+        </article>
+
+        <article class="feature-card reveal">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect width="18" height="12" x="3" y="6" rx="2" stroke="currentColor" stroke-width="1.2" style="color:var(--accent)"/></svg>
+          </div>
+          <h3>Platform Engineering</h3>
+          <p>End-to-end platforms with observability, CI/CD, and secure multi-environment workflows.</p>
+        </article>
+
+        <article class="feature-card reveal">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3v18" stroke="currentColor" stroke-width="1.4" style="color:var(--accent)"/></svg>
+          </div>
+          <h3>Data & Pipelines</h3>
+          <p>Reliable ETL, feature stores, and lineage so models stay performant and auditable.</p>
+        </article>
+
+        <article class="feature-card reveal">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3" stroke="currentColor" stroke-width="1.2" style="color:var(--accent)"/></svg>
+          </div>
+          <h3>Product Design</h3>
+          <p>Human-centered flows for complex AI interactions with clear guardrails and transparency.</p>
+        </article>
+
+        <article class="feature-card reveal">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 6h18" stroke="currentColor" stroke-width="1.2" style="color:var(--accent)"/></svg>
+          </div>
+          <h3>Security & Compliance</h3>
+          <p>Data governance, threat modeling, and compliance workflows integrated into delivery.</p>
+        </article>
+
+        <article class="feature-card reveal">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 21h16" stroke="currentColor" stroke-width="1.2" style="color:var(--accent)"/></svg>
+          </div>
+          <h3>Integration & APIs</h3>
+          <p>Clean contracts, SDKs, and partner integrations that make adoption frictionless.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" aria-labelledby="contact-heading">
+      <h2 id="contact-heading" class="reveal">Start a conversation</h2>
+      <p class="intro reveal">Tell us about your challenge. We'll propose a scoped plan: timeline, team, and expected outcomes.</p>
+
+      <div class="contact-wrap">
+        <div class="form-card reveal">
+          <form action="contact.php" method="POST" novalidate>
+            <div style="display:flex;gap:12px;">
+              <div style="flex:1">
+                <label for="name">Name <span aria-hidden="true" style="color:var(--accent)">*</span></label>
+                <input id="name" name="name" type="text" required autocomplete="name" placeholder="Your name">
+              </div>
+              <div style="flex:1">
+                <label for="company">Company</label>
+                <input id="company" name="company" type="text" placeholder="Company (optional)">
+              </div>
+            </div>
+
+            <div style="margin-top:12px;">
+              <label for="email">Email <span aria-hidden="true" style="color:var(--accent)">*</span></label>
+              <input id="email" name="email" type="email" required autocomplete="email" placeholder="you@company.com">
+            </div>
+
+            <div style="margin-top:12px;">
+              <label for="message">Message <span aria-hidden="true" style="color:var(--accent)">*</span></label>
+              <textarea id="message" name="message" rows="6" required placeholder="Brief description of your project and goals"></textarea>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:12px;margin-top:14px;">
+              <button class="btn-primary" type="submit">Send message</button>
+              <div class="help muted">We aim to respond within 2 business days.</div>
+            </div>
+          </form>
+        </div>
+
+        <div style="align-self:start">
+          <div style="background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:18px; border-radius:12px; border:1px solid rgba(255,255,255,0.03)">
+            <div class="caps">Engagements</div>
+            <h4 style="margin-top:8px;color:var(--text-strong)">Fixed-price pilots & retained teams</h4>
+            <p class="muted" style="margin-top:8px">We structure work to de-risk early discovery and quickly validate impact.</p>
+
+            <hr style="border:none;height:1px;background:rgba(255,255,255,0.03);margin:14px 0">
+
+            <div style="display:flex;gap:10px;align-items:center;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2v20" stroke="currentColor" stroke-width="1.4" style="color:var(--accent)"/></svg>
+              <div>
+                <div style="font-weight:700;color:var(--text-strong)">Discovery: 3–4 weeks</div>
+                <div class="muted">Research, prototype, go/no-go</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="testimonials" aria-labelledby="testimonials-heading">
+      <h2 id="testimonials-heading" class="reveal">What our clients say</h2>
+      <p class="intro reveal">Long-term relationships built on measurable impact and transparent delivery.</p>
+
+      <div class="testimonials" style="margin-top:18px;">
+        <article class="testimonial reveal">
+          <div style="display:flex;align-items:center;">
+            <span class="avatar" aria-hidden="true"></span>
+            <div>
+              <div style="font-weight:800">Head of Product — Fintech</div>
+              <div class="muted">London</div>
+            </div>
+          </div>
+          <p class="quote">"Their team turned a risky prototype into a stable service in under three months. Production reliability and clear metrics made the investment trivial."</p>
+        </article>
+
+        <article class="testimonial reveal">
+          <div style="display:flex;align-items:center;">
+            <span class="avatar" aria-hidden="true"></span>
+            <div>
+              <div style="font-weight:800">CTO — Marketplace</div>
+              <div class="muted">Berlin</div>
+            </div>
+          </div>
+          <p class="quote">"Technically excellent and pragmatic. Observability and CI practices meant we maintained velocity after launch."</p>
+        </article>
+
+        <article class="testimonial reveal">
+          <div style="display:flex;align-items:center;">
+            <span class="avatar" aria-hidden="true"></span>
+            <div>
+              <div style="font-weight:800">CEO — Healthtech</div>
+              <div class="muted">New York</div>
+            </div>
+          </div>
+          <p class="quote">"Clear communication, strong privacy practices, and a disciplined roadmap — their work became our competitive advantage."</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="faq" aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="reveal">Frequently asked</h2>
+      <p class="intro reveal">Common questions about scope, IP, and timelines.</p>
+
+      <div class="faq-list" style="margin-top:18px;">
+        <details class="reveal">
+          <summary>How long does a typical pilot take?</summary>
+          <div class="muted" style="margin-top:10px">Most pilots run 3–6 weeks depending on data access and evaluation criteria. We aim to deliver a validated prototype and a clear next-step plan.</div>
+        </details>
+
+        <details class="reveal">
+          <summary>Who owns the IP?</summary>
+          <div class="muted" style="margin-top:10px">Clients retain IP for core deliverables. We discuss licensing for shared libraries and open-source components upfront.</div>
+        </details>
+
+        <details class="reveal">
+          <summary>What security practices do you follow?</summary>
+          <div class="muted" style="margin-top:10px">Threat modeling, least privilege, secrets management, and routine pen testing are baked into our delivery process.</div>
+        </details>
+      </div>
+    </section>
+
+    <section aria-label="Call to action final">
+      <div class="cta-strip reveal">
+        <div>
+          <h3 class="reveal">Ready to accelerate your AI roadmap?</h3>
+          <p class="muted" style="margin:6px 0 0">Book an introductory call and receive a concise engagement plan.</p>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <a class="btn-ghost reveal" href="#how">See the process</a>
+          <a class="btn-primary reveal" href="#contact">Get in touch</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer role="contentinfo">
+    <div class="footer-grid" aria-label="Footer">
+      <div>
+        <div class="caps">Services</div>
+        <ul style="list-style:none;padding:0;margin-top:10px">
+          <li><a href="#features">Production ML</a></li>
+          <li><a href="#features">Platform Engineering</a></li>
+          <li><a href="#features">Data & Pipelines</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="caps">Company</div>
+        <ul style="list-style:none;padding:0;margin-top:10px">
+          <li><a href="#how">Approach</a></li>
+          <li><a href="#testimonials">Clients</a></li>
+          <li><a href="#contact">Careers</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="caps">Contact</div>
+        <address style="margin-top:10px">
+          WORLDWIDE SOLUTIONS LIMITED<br>
+          <a href="#contact">Contact form</a><br>
+          <a href="https://find-and-update.company-information.service.gov.uk/company/15716060" target="_blank" rel="noopener">Company profile</a>
+        </address>
+      </div>
+
+      <div>
+        <div class="caps">Legal</div>
+        <ul style="list-style:none;padding:0;margin-top:10px">
+          <li><a href="#faq">Privacy</a></li>
+          <li><a href="#faq">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="max-width:1200px;margin:18px auto 0;padding:0 var(--space-md);display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:0.92rem">
+      <div>© <span id="year"></span> WORLDWIDE SOLUTIONS LIMITED. All rights reserved.</div>
+      <div class="muted">Registered company number: 15716060</div>
+    </div>
+  </footer>
+
+  <!-- Local animation script (must be present and is expected to handle `.reveal`) -->
+  <script src="script.js" defer></script>
+
+  <script>
+    /* Small progressive enhancement: update year (no changes to reveal logic) */
+    try{ document.getElementById('year').textContent = new Date().getFullYear(); }catch(e){}
+  </script>
+</body>
+</html>
