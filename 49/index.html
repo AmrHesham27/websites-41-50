@@ -576,7 +576,7 @@
 
       <div class="contact-wrap">
         <div class="form-card reveal">
-          <form action="contact.php" method="POST" novalidate>
+          <form>
             <div style="display:flex;gap:12px;">
               <div style="flex:1">
                 <label for="name">Name <span aria-hidden="true" style="color:var(--accent)">*</span></label>
@@ -748,7 +748,7 @@
 
   <!-- Local animation script (must be present and is expected to handle `.reveal`) -->
   <script src="script.js" defer></script>
-
+  <script src="contact.js"></script>
   <script>
     /* Small progressive enhancement: update year (no changes to reveal logic) */
     try{ document.getElementById('year').textContent = new Date().getFullYear(); }catch(e){}
